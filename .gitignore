@@ -30,7 +30,8 @@
 /web/bundles/
 /web/uploads/
 /vendor/*
-
+.idea/*
+.idea/
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
