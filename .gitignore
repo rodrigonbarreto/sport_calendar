@@ -29,7 +29,7 @@
 # Assets and user uploadsve
 /web/bundles/
 /web/uploads/
-/vendor/
+/vendor/*
 
 # PHPUnit
 /app/phpunit.xml
