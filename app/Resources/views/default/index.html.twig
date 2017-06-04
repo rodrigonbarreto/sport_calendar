@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <br><br>
+    <div id="wrapper">
+        <div class="container">
+
+            <table id="today" border="1" class="table">
+                <thead>
+                    <th>two week ago</th>
+                    <th>week ago</th>
+                    <th>today</th>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>
+                        {% for today in exerciseServices.two_week_ago %}
+                            {{ today.description }} - {{ today.weight }}KG X {{ today.numberRepetition }} - {{ today.date|date("d/m/Y") }}<br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for today in exerciseServices.week_ago %}
+                            {{ today.description  }}  -  {{ today.weight }}KG X {{ today.numberRepetition }} - {{ today.date|date("d/m/Y") }} <br>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for today in exerciseServices.today %}
+                            {{ today.description }} -  {{ today.weight }}KG X  {{ today.numberRepetition }} - {{ today.date|date("d/m/Y") }} <br>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}

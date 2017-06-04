@@ -1,0 +1,7 @@
+AppBundle\Entity\Exercise:
+    exercise{1..400}:
+        description: '<exercises()>'
+        weight: '<numberBetween(20, 200)>'
+        numberRepetition: '<numberBetween(5, 15)>'
+        date: '<dateTimeBetween("-40 days", "now")>'
+        time: '<dateTime()>'
