@@ -1,4 +1,4 @@
-sport_calendar
+Sport Calendar
 ==============
 
 ![SAMPLE](http://res.cloudinary.com/dcikw6bzg/image/upload/v1496597472/Screen_Shot_2017-06-04_at_19.23.43_rewjm5.png)
