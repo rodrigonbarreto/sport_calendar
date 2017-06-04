@@ -10,20 +10,10 @@ class ExerciseProvider
     public function exercises()
     {
         $genera = [
-            'Octopus',
-            'Balaena',
-            'Orcinus',
-            'Hippocampus',
-            'Asterias',
-            'Amphiprion',
-            'Carcharodon',
-            'Aurelia',
-            'Cucumaria',
-            'Balistoides',
-            'Paralithodes',
-            'Chelonia',
-            'Trichechus',
-            'Eumetopias'
+            'Crunch',
+            'Resisted Crunch',
+            'Inclined Crunch with Feet Attached',
+            'Crunch with Leg Curl'
         ];
         $key = array_rand($genera);
         return $genera[$key];

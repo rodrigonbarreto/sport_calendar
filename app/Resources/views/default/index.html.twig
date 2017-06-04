@@ -1,45 +1,72 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <br><br>
+
     <div id="wrapper">
         <div class="container">
-
+            <h1 class="main-title">{{ 'list_of_exercises'|trans }}</h1>
             <div class="row">
-                <div class="col-sm-4 panel panel-default">
+                <div class="panel panel-default">
                     <h2>{{ 'two_week_ago'|trans }}</h2>
                     <ul>
                         {% for today in exerciseServices.two_week_ago %}
-                        <li>{{ today.description }} - {{ today.weight }}KG X {{ today.numberRepetition }}
-                            - {{ today.date|date("d/m/Y") }}</li>
+                            <li>{{ today.description }} - {{ today.weight }}KG X {{ today.numberRepetition }} </li>
                         {% endfor %}
                     </ul>
                 </div>
 
-                <div class="col-sm-4 panel panel-default">
+                <div class="panel panel-default">
                     <h2>{{ 'week_ago'|trans }}</h2>
                     <ul>
                         {% for today in exerciseServices.week_ago %}
-                        <li> {{ today.description  }}  -  {{ today.weight }}KG X {{ today.numberRepetition }}
-                            - {{ today.date|date("d/m/Y") }} </li>
-                        {% endfor %}>
+                            <li> {{ today.description  }}  -  {{ today.weight }}KG X {{ today.numberRepetition }} </li>
+                        {% endfor %}
                     </ul>
                 </div>
 
-                <div class="col-sm-4 panel panel-default">
+                <div class="panel panel-default">
                     <h2>{{ 'today'|trans }}</h2>
                     <ul>
-                    {% for today in exerciseServices.today %}
-                         <li> {{ today.description }} -  {{ today.weight }}KG X  {{ today.numberRepetition }}
-                             - {{ today.date|date("d/m/Y") }} </li>
-                    {% endfor %}
+                        {% for today in exerciseServices.today %}
+                            <li> {{ today.description }} -  {{ today.weight }}KG X  {{ today.numberRepetition }} </li>
+                        {% endfor %}
                     </ul>
                 </div>
+            </div>
+        </div>
+    </div>
 
-
-         </div>
 {% endblock %}
 
 {% block stylesheets %}
-
+            {{  parent() }}
+<style>
+    body{
+        background-color: #5eb5e0 !important;
+    }
+    .row {
+        display: flex;
+        justify-content: space-between;
+    }
+    .panel{
+        width: 32%;
+    }
+    .panel > h2 {
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 20px;
+        text-align: center;
+        margin-bottom: 0;
+    }
+    .panel > ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .panel > ul li {
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+    }
+    .main-title {
+        color: white;
+    }
+</style>
 {% endblock %}

@@ -45,11 +45,11 @@ class ExerciseService
                 $today_list[] = $e;
             }
 
-            if ($e->getDate()->format('Y-m-d') <= $week_ago && $e->getDate()->format('Y-m-d') >= $two_week_ago ) {
+            if ($e->getDate()->format('Y-m-d') == $week_ago  ) {
                 $week_ago_list[] = $e;
             }
 
-            if ($e->getDate()->format('Y-m-d') < $two_week_ago && $e->getDate()->format('Y-m-d') >= $tree_week_ago ) {
+            if ($e->getDate()->format('Y-m-d') == $two_week_ago ) {
                 $two_week_ago_list[] = $e;
             }
         }
