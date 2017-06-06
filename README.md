@@ -23,3 +23,9 @@ Sport Calendar
 
 JMSSerializerBundle
 ```
+
+#Mobile version with Ionic
+
+![SAMPLE](http://res.cloudinary.com/dcikw6bzg/image/upload/v1496752681/Screen_Shot_2017-06-06_at_14.31.59_oolpwr.png)
+ - https://github.com/rodrigonbarreto/sport_calendar_mobile
+ 
