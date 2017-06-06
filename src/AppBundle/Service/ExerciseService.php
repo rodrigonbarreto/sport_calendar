@@ -3,8 +3,7 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Exercise;
-use AppBundle\Repository\ExerciseRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\Serializer;
 
 class ExerciseService
@@ -15,7 +14,14 @@ class ExerciseService
      * @var Serializer $serializer
      */
     protected $serializer;
-    public function __construct(EntityManager $manager, Serializer $serializer)
+
+    /**
+     * ExerciseService constructor.
+     *
+     * @param EntityManagerInterface $manager
+     * @param Serializer $serializer
+     */
+    public function __construct(EntityManagerInterface $manager, Serializer $serializer)
     {
         $this->manager = $manager;
         $this->serializer = $serializer;
@@ -30,17 +36,17 @@ class ExerciseService
         $week_ago = strtotime("-1 week");
         $two_week_ago = strtotime("-2 week");
 
-        $week_ago = date("Y-m-d",$week_ago);
-        $two_week_ago = date("Y-m-d",$two_week_ago);
+        $week_ago = date("Y-m-d", $week_ago);
+        $two_week_ago = date("Y-m-d", $two_week_ago);
 
 
         $repository = $this->manager->getRepository(Exercise::class);
-        $exercises = $repository->findBy(array(), array('date'=> 'DESC'));
+        $exercises = $repository->findBy([], ['date'=> 'DESC']);
 
         $now = date('Y-m-d');
-        $today_list = array();
-        $week_ago_list = array();
-        $two_week_ago_list = array();
+        $today_list = [];
+        $week_ago_list = [];
+        $two_week_ago_list = [];
 
         foreach ($exercises as $e) {
             /** @var Exercise $e */
@@ -57,7 +63,6 @@ class ExerciseService
             }
         }
 
-
         $listExercise = [
             'today' => $today_list,
             'week_ago' => $week_ago_list,
@@ -66,16 +71,12 @@ class ExerciseService
 
         switch ($format) {
             case 'json':
-                $listExercise =$this->serializer->serialize($listExercise, 'json');
-                break;
+                return $this->serializer->serialize($listExercise, 'json');
             case 'xml':
-                $listExercise = $this->serializer->serialize($listExercise, 'xml');
-                break;
+                return $this->serializer->serialize($listExercise, 'xml');
+            default:
+                return $listExercise;
         }
-
-        return $listExercise;
-
-
     }
 
 }
