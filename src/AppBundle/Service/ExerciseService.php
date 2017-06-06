@@ -41,6 +41,7 @@ class ExerciseService
 
 
         $repository = $this->manager->getRepository(Exercise::class);
+        //todo: $repository->findBy(['date' => [$today, $weekAgo, $twoWeeksAgo]]);
         $exercises = $repository->findBy([], ['date'=> 'DESC']);
 
         $now = date('Y-m-d');
@@ -69,6 +70,7 @@ class ExerciseService
             'two_week_ago' => $two_week_ago_list,
         ];
 
+        //todo: remove serialization from here - it should simplify your test a lot
         switch ($format) {
             case 'json':
                 return $this->serializer->serialize($listExercise, 'json');
