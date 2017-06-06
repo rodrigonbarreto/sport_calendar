@@ -15,3 +15,11 @@ Sport Calendar
   
  5 - php bin/console server:run
 ```
+
+
+#Bundles
+
+```
+
+JMSSerializerBundle
+```

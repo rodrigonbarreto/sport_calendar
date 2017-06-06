@@ -1,6 +1,13 @@
 imports:
     - { resource: config_dev.yml }
 
+doctrine:
+    dbal:
+        host:     localhost
+        dbname:   sport_calendar_test
+        user:     root
+        password: 123123
+
 framework:
     test: ~
     session:

@@ -5,36 +5,39 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Exercise;
 use AppBundle\Repository\ExerciseRepository;
 use Doctrine\ORM\EntityManager;
+use JMS\Serializer\Serializer;
 
 class ExerciseService
 {
     protected $manager;
 
-    public function __construct(EntityManager $manager)
+    /**
+     * @var Serializer $serializer
+     */
+    protected $serializer;
+    public function __construct(EntityManager $manager, Serializer $serializer)
     {
         $this->manager = $manager;
+        $this->serializer = $serializer;
     }
 
-    public function getExercises()
+    /**
+     * @param string $format
+     * @return mixed
+     */
+    public function getExercises($format = 'Default')
     {
-
         $week_ago = strtotime("-1 week");
         $two_week_ago = strtotime("-2 week");
-        $tree_week_ago = strtotime("-3 week");
-
 
         $week_ago = date("Y-m-d",$week_ago);
         $two_week_ago = date("Y-m-d",$two_week_ago);
-        $tree_week_ago = date("Y-m-d",$tree_week_ago);
-
-
 
 
         $repository = $this->manager->getRepository(Exercise::class);
-        $now = date('Y-m-d');
-
         $exercises = $repository->findBy(array(), array('date'=> 'DESC'));
 
+        $now = date('Y-m-d');
         $today_list = array();
         $week_ago_list = array();
         $two_week_ago_list = array();
@@ -60,6 +63,16 @@ class ExerciseService
             'week_ago' => $week_ago_list,
             'two_week_ago' => $two_week_ago_list,
         ];
+
+        switch ($format) {
+            case 'json':
+                $listExercise =$this->serializer->serialize($listExercise, 'json');
+                break;
+            case 'xml':
+                $listExercise = $this->serializer->serialize($listExercise, 'xml');
+                break;
+        }
+
         return $listExercise;
 
 
