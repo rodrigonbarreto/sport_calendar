@@ -33,32 +33,31 @@ class ExerciseService
      */
     public function getExercises($format = 'Default')
     {
-        $week_ago = strtotime("-1 week");
-        $two_week_ago = strtotime("-2 week");
+        $weekAgo = strtotime("-1 week");
+        $twoWeeksAgo = strtotime("-2 week");
 
-        $week_ago = date("Y-m-d", $week_ago);
-        $two_week_ago = date("Y-m-d", $two_week_ago);
-
+        $weekAgo = date("Y-m-d", $weekAgo);
+        $twoWeeksAgo = date("Y-m-d", $twoWeeksAgo);
+        $today = date('Y-m-d');
 
         $repository = $this->manager->getRepository(Exercise::class);
-        $exercises = $repository->findBy([], ['date'=> 'DESC']);
+        $exercises = $repository->findBy(['date' => [$today, $weekAgo, $twoWeeksAgo]], ['date'=> 'DESC']);
 
-        $now = date('Y-m-d');
         $today_list = [];
         $week_ago_list = [];
         $two_week_ago_list = [];
 
         foreach ($exercises as $e) {
             /** @var Exercise $e */
-            if ($e->getDate()->format('Y-m-d') == $now) {
+            if ($e->getDate()->format('Y-m-d') == $today) {
                 $today_list[] = $e;
             }
 
-            if ($e->getDate()->format('Y-m-d') == $week_ago  ) {
+            if ($e->getDate()->format('Y-m-d') == $weekAgo  ) {
                 $week_ago_list[] = $e;
             }
 
-            if ($e->getDate()->format('Y-m-d') == $two_week_ago ) {
+            if ($e->getDate()->format('Y-m-d') == $twoWeeksAgo ) {
                 $two_week_ago_list[] = $e;
             }
         }
@@ -68,7 +67,16 @@ class ExerciseService
             'week_ago' => $week_ago_list,
             'two_week_ago' => $two_week_ago_list,
         ];
+        return $listExercise;
+    }
 
+    /**
+     * @param mixed  $listExercise
+     * @param string $format
+     *
+     * @return mixed|string
+     */
+    public function serializeExercise ($listExercise, $format = 'default') {
         switch ($format) {
             case 'json':
                 return $this->serializer->serialize($listExercise, 'json');
@@ -78,5 +86,4 @@ class ExerciseService
                 return $listExercise;
         }
     }
-
 }

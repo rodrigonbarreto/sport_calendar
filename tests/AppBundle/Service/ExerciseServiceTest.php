@@ -33,12 +33,6 @@ class ExerciseServiceTest extends \PHPUnit_Framework_TestCase
         $this->repositoryMock = $this->getMockBuilder(EntityRepository::class)->disableOriginalConstructor()->getMock();
         $this->managerMock = $this->getMock(EntityManagerInterface::class);
 
-        $this->managerMock
-            ->expects($this->once())
-            ->method('getRepository')
-            ->with(Exercise::class)
-            ->willReturn($this->repositoryMock)
-        ;
 
         $this->service = new ExerciseService($this->managerMock, $this->serializerMock);
     }
@@ -65,52 +59,30 @@ class ExerciseServiceTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
+        $this->managerMock
+            ->expects($this->once())
+            ->method('getRepository')
+            ->with(Exercise::class)
+            ->willReturn($this->repositoryMock)
+        ;
+
         $exercises = $this->createExercises($data);
+
+        $weekAgo = strtotime("-1 week");
+        $twoWeeksAgo = strtotime("-2 week");
+        $weekAgo = date("Y-m-d", $weekAgo);
+        $twoWeeksAgo = date("Y-m-d", $twoWeeksAgo);
+        $today = date('Y-m-d');
 
         $this->repositoryMock->expects($this->once())
             ->method('findBy')
-            ->with([], ['date' => Criteria::DESC])
+            ->with(['date' => [$today, $weekAgo, $twoWeeksAgo]], ['date' => Criteria::DESC ])
             ->willReturn($exercises)
         ;
 
         $result = $this->service->getExercises();
 
         $this->checkExercisesResponse($result, $this->filterExercises($exercises));
-    }
-
-    public function testGetExercisesSerialized()
-    {
-        $format = 'json';
-        $expectedResponse = 'expected json string';
-
-        $data = [
-            'first exercise' => [
-                'date' => new \DateTime(),
-                'description' => 'Description',
-            ],
-            'second exercise' => [
-                'date' => (new \DateTime())->sub(new \DateInterval('P7D')),
-                'description' => 'Description',
-            ],
-        ];
-
-        $exercises = $this->createExercises($data);
-
-        $this->repositoryMock->expects($this->once())
-            ->method('findBy')
-            ->with([], ['date' => Criteria::DESC])
-            ->willReturn($exercises)
-        ;
-
-        $this->serializerMock->expects($this->once())
-            ->method('serialize')
-            ->with($this->filterExercises($exercises), $format)
-            ->willReturn($expectedResponse)
-        ;
-
-        $result = $this->service->getExercises($format);
-
-        $this->assertEquals($result, $expectedResponse);
     }
 
     /**
@@ -183,8 +155,4 @@ class ExerciseServiceTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($response[$key], $expectedResponse[$key]);
         }
     }
-
-    // TODO:
-    // 1. Move stuff to data provider
-    // 2. Add maybe more data
 }
