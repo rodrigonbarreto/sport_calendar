@@ -45,6 +45,29 @@ class ExerciseServiceTest extends \PHPUnit_Framework_TestCase
         $this->managerMock = null;
         $this->service = null;
     }
+    
+   //todo: dataProvider:
+   return [
+        $obj1 = new Exersize(); $obj1->setDate(new \DateTime('2017-06-07'));
+        //todo: or $ob1 = $this->createExercise('2017-06-07');
+        //todo: $obj2,..5
+      'case 1' => [
+          'now' => new \DateTime('2017-06-07 14:12:00'),
+          'repositoryResponse' => [
+                $obj1,
+                // 2 exersize for today
+                // 3 exersize for week ago
+                // 4 exersize for 2 weeks ago
+          ],
+          'expectedWeekAgoDate' => new \DateTime('2017-05-31 14:12:00'),
+          'expectedTwoWeeksAgoDate' => new \DateTime('2017-05-24 14:12:00'),
+          'expectedResponse' => [
+                'today' => [$obj1, $obj2]
+                'week_ago' => //{object 3}
+                'two_weeks_ago' => //{object 4}
+          ],
+      ],
+   ];
 
     public function testGetExercises()
     {
