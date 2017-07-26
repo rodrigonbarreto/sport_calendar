@@ -4,27 +4,19 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Exercise;
 use Doctrine\ORM\EntityManagerInterface;
-use JMS\Serializer\Serializer;
 
 class ExerciseService
 {
     protected $manager;
 
     /**
-     * @var Serializer $serializer
-     */
-    protected $serializer;
-
-    /**
      * ExerciseService constructor.
      *
      * @param EntityManagerInterface $manager
-     * @param Serializer $serializer
      */
-    public function __construct(EntityManagerInterface $manager, Serializer $serializer)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -68,22 +60,5 @@ class ExerciseService
             'two_week_ago' => $two_week_ago_list,
         ];
         return $listExercise;
-    }
-
-    /**
-     * @param mixed  $listExercise
-     * @param string $format
-     *
-     * @return mixed|string
-     */
-    public function serializeExercise ($listExercise, $format = 'default') {
-        switch ($format) {
-            case 'json':
-                return $this->serializer->serialize($listExercise, 'json');
-            case 'xml':
-                return $this->serializer->serialize($listExercise, 'xml');
-            default:
-                return $listExercise;
-        }
     }
 }

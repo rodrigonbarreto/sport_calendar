@@ -7,3 +7,6 @@ services:
     app.exercise_service:
         class: AppBundle\Service\ExerciseService
         autowire: true
+    app.serializer_data_service:
+        class: AppBundle\Service\SerializerDataService
+        autowire: true

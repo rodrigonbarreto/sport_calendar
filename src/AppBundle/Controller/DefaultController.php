@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Service\ExerciseService;
+use AppBundle\Service\SerializerDataService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,8 +33,11 @@ class DefaultController extends Controller
     {
         /** @var ExerciseService $exerciseService */
         $exerciseService = $this->get('app.exercise_service');
+        /** @var SerializerDataService $serializeService */
+
+        $serializeService = $this->get('app.serializer_data_service');
         $exercises = $exerciseService->getExercises();
-        $exercises = $exerciseService->serializeExercise($exercises, 'json');
+        $exercises = $serializeService->serializeExercise($exercises, 'json');
 
         return new Response($exercises, Response::HTTP_OK, array(
             'Content-Type' => 'application/json',
