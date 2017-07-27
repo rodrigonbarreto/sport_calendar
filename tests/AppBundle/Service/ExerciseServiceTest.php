@@ -50,26 +50,38 @@ class ExerciseServiceTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->repositoryMock)
         ;
 
-        $exercises = $this->createExercises($repositoryResponse['date']);
-        $weekAgo = strtotime("-1 week");
-        $twoWeeksAgo = strtotime("-2 week");
-        $weekAgo = date("Y-m-d", $weekAgo);
-        $twoWeeksAgo = date("Y-m-d", $twoWeeksAgo);
-        $today = date('Y-m-d');
+        $exerciseToday = new Exercise();
+        $exerciseToday->setDate($expectedResponse['dates']['dayOne']);
+        $exerciseWeekAgo = new Exercise();
+        $exerciseWeekAgo->setDate($expectedResponse['dates']['weekAgo']);
+        $exerciseTwoWeekAgo = new Exercise();
+        $exerciseTwoWeekAgo->setDate($expectedResponse['dates']['twoWeekAgo']);
+
+        $exercises =
+        [
+            $exerciseToday,
+            $exerciseWeekAgo,
+            $exerciseTwoWeekAgo,
+        ];
 
         $this->repositoryMock->expects($this->once())
             ->method('findBy')
-            ->with(['date' => [$today, $weekAgo, $twoWeeksAgo]], ['date' => Criteria::DESC ])
+            ->with(['date' =>
+                [
+                    $repositoryResponse['dates']['dayOne'],
+                    $repositoryResponse['dates']['weekAgo'],
+                    $repositoryResponse['dates']['twoWeekAgo']]
+                ],
+                    ['date' => Criteria::DESC ]
+                )
             ->willReturn($exercises)
         ;
 
-        $result = $this->service->getExercises();
-        $exerciseToday = new Exercise();
-        $exerciseToday->setDate($expectedResponse['today']['date']);
-        $exerciseWeekAgo = new Exercise();
-        $exerciseWeekAgo->setDate($expectedResponse['week_ago']['date']);
-        $exerciseTwoWeekAgo = new Exercise();
-        $exerciseTwoWeekAgo->setDate($expectedResponse['two_week_ago']['date']);
+        $result = $this->service->getExercises(
+            $repositoryResponse['dates']['dayOne'],
+            $repositoryResponse['dates']['weekAgo'],
+            $repositoryResponse['dates']['twoWeekAgo']
+        );
 
         $this->assertEquals(
             $result['today'][0]->getDate()->format('Y-m-d'),
@@ -92,52 +104,21 @@ class ExerciseServiceTest extends \PHPUnit_Framework_TestCase
         return [
                 'check Exercise Repository' => [
                     'repositoryResponse' => [
-                        'date' => [
-                            'Day 1' => [
-                                'date' => new \DateTime(),
-                                'description' => 'Description',
-                            ],
-                            'week ago' => [
-                                'date' => (new \DateTime())->sub(new \DateInterval('P7D')),
-                                'description' => 'Description',
-                            ],
-                            'two_week ago' => [
-                                'date' => (new \DateTime())->sub(new \DateInterval('P14D')),
-                                'description' => 'Description',
-                            ],
+                        'dates' => [
+                                'dayOne' => "2017-07-27",
+                                'weekAgo' => "2017-07-20",
+                                'twoWeekAgo' => "2017-07-13",
+                         ],
+                ],
+                    'expectedResponse' => [
+                        'dates' => [
+                            'dayOne' => new \DateTime("2017-07-27"),
+                            'weekAgo' => new \DateTime("2017-07-20"),
+                            'twoWeekAgo' => new \DateTime("2017-07-13"),
+                        ],
                     ],
-                ],
-                'expectedResponse' => [
-                            'today' => [
-                                'date' => new \DateTime(),
-                            ],
-                            'week_ago' => [
-                                'date' => (new \DateTime())->sub(new \DateInterval('P7D')),
-                            ],
-                            'two_week_ago' => [
-                                'date' => (new \DateTime())->sub(new \DateInterval('P14D')),
-                            ],
-                ],
             ]
         ];
 
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return Exercise[]
-     */
-    private function createExercises(array $data)
-    {
-        $exercises = [];
-
-        foreach ($data as $key => $item) {
-            $exercise = new Exercise();
-            $exercise->setDate($item['date']);
-            $exercises[] = $exercise;
-        }
-
-        return $exercises;
     }
 }

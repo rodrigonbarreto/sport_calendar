@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Exercise;
 use Doctrine\ORM\EntityManagerInterface;
+use Faker\Provider\DateTime;
 
 class ExerciseService
 {
@@ -20,17 +21,13 @@ class ExerciseService
     }
 
     /**
-     * @param string $format
-     * @return mixed
+     * @param string $today
+     * @param string $weekAgo
+     * @param string $twoWeeksAgo
+     * @return array
      */
-    public function getExercises($format = 'Default')
+    public function getExercises(string $today, string $weekAgo, string $twoWeeksAgo )
     {
-        $weekAgo = strtotime("-1 week");
-        $twoWeeksAgo = strtotime("-2 week");
-
-        $weekAgo = date("Y-m-d", $weekAgo);
-        $twoWeeksAgo = date("Y-m-d", $twoWeeksAgo);
-        $today = date('Y-m-d');
 
         $repository = $this->manager->getRepository(Exercise::class);
         $exercises = $repository->findBy(['date' => [$today, $weekAgo, $twoWeeksAgo]], ['date'=> 'DESC']);
