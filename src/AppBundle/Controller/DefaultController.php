@@ -16,15 +16,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $weekAgo = strtotime("-1 week");
-        $twoWeeksAgo = strtotime("-2 week");
-        $weekAgo = date("Y-m-d", $weekAgo);
-        $twoWeeksAgo = date("Y-m-d", $twoWeeksAgo);
         $today = date('Y-m-d');
 
         /** @var ExerciseService $exerciseService */
         $exerciseService = $this->get('app.exercise_service');
-        $exercises = $exerciseService->getExercises($today, $weekAgo, $twoWeeksAgo);
+        $exercises = $exerciseService->getExercises($today);
 
         return $this->render('default/index.html.twig', [
             'exerciseServices' => $exercises,
@@ -36,17 +32,13 @@ class DefaultController extends Controller
      */
     public function indexApiAction(Request $request)
     {
-        $weekAgo = strtotime("-1 week");
-        $twoWeeksAgo = strtotime("-2 week");
-        $weekAgo = date("Y-m-d", $weekAgo);
-        $twoWeeksAgo = date("Y-m-d", $twoWeeksAgo);
         $today = date('Y-m-d');
 
         /** @var ExerciseService $exerciseService */
         $exerciseService = $this->get('app.exercise_service');
         /** @var SerializerDataService $serializeService */
         $serializeService = $this->get('app.serializer_data_service');
-        $exercises = $exerciseService->getExercises($today, $weekAgo, $twoWeeksAgo);
+        $exercises = $exerciseService->getExercises($today);
         $exercises = $serializeService->serializeExercise($exercises, 'json');
 
         return new Response($exercises, Response::HTTP_OK, array(
@@ -54,6 +46,5 @@ class DefaultController extends Controller
             'Access-Control-Allow-Headers' => 'origin, content-type, accept',
             'Access-Control-Allow-Origin' => '*'
         ));
-
     }
 }

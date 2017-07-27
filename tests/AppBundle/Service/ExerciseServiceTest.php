@@ -77,11 +77,7 @@ class ExerciseServiceTest extends \PHPUnit_Framework_TestCase
             ->willReturn($exercises)
         ;
 
-        $result = $this->service->getExercises(
-            $repositoryResponse['dates']['dayOne'],
-            $repositoryResponse['dates']['weekAgo'],
-            $repositoryResponse['dates']['twoWeekAgo']
-        );
+        $result = $this->service->getExercises($repositoryResponse['dates']['dayOne']);
 
         $this->assertEquals(
             $result['today'][0]->getDate()->format('Y-m-d'),

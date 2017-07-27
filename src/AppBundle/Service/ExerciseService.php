@@ -22,12 +22,15 @@ class ExerciseService
 
     /**
      * @param string $today
-     * @param string $weekAgo
-     * @param string $twoWeeksAgo
      * @return array
      */
-    public function getExercises(string $today, string $weekAgo, string $twoWeeksAgo )
+    public function getExercises(string $today)
     {
+
+        $weekAgo = strtotime(date("Y-m-d", strtotime($today)) . " -1 week");
+        $weekAgo = date("Y-m-d", $weekAgo);
+        $twoWeeksAgo = strtotime(date("Y-m-d", strtotime($today)) . " -2 week");
+        $twoWeeksAgo = date("Y-m-d", $twoWeeksAgo);
 
         $repository = $this->manager->getRepository(Exercise::class);
         $exercises = $repository->findBy(['date' => [$today, $weekAgo, $twoWeeksAgo]], ['date'=> 'DESC']);
