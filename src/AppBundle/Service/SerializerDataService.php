@@ -4,6 +4,10 @@ namespace AppBundle\Service;
 
 use JMS\Serializer\Serializer;
 
+/**
+ * Class SerializerDataService
+ * @package AppBundle\Service
+ */
 class SerializerDataService
 {
     /**
@@ -24,10 +28,10 @@ class SerializerDataService
      * @param mixed  $listExercise
      * @param string $format
      *
-     * @return mixed|string
+     * @return mixed
      */
-    public function serializeExercise($listExercise, $format = 'default') {
-
+    public function serializeExercise($listExercise, $format = 'default') : string
+    {
         switch ($format) {
             case 'json':
                 return $this->serializer->serialize($listExercise, 'json');

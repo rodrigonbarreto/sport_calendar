@@ -75,6 +75,10 @@ Locale should be defined by part of requested URL. For example, /en/calendar –
 
 JMSSerializerBundle
 ```
+#RUN test
+```
+vendor/bin/phpunit
+```
 
 #Mobile version with Ionic
 

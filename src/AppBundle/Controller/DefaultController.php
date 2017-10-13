@@ -6,20 +6,20 @@ use AppBundle\Service\ExerciseService;
 use AppBundle\Service\SerializerDataService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage", )
+     *
+     * @param ExerciseService $exerciseService
+     * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(ExerciseService $exerciseService)
     {
         $today = date('Y-m-d');
-
         /** @var ExerciseService $exerciseService */
-        $exerciseService = $this->get('app.exercise_service');
         $exercises = $exerciseService->getExercises($today);
 
         return $this->render('default/index.html.twig', [
@@ -29,15 +29,14 @@ class DefaultController extends Controller
 
     /**
      * @Route("/exercise/list", name="exercise_api", )
+     *
+     * @param ExerciseService $exerciseService
+     * @param SerializerDataService $serializeService
+     * @return Response
      */
-    public function indexApiAction(Request $request)
+    public function indexApiAction(ExerciseService $exerciseService, SerializerDataService $serializeService )
     {
         $today = date('Y-m-d');
-
-        /** @var ExerciseService $exerciseService */
-        $exerciseService = $this->get('app.exercise_service');
-        /** @var SerializerDataService $serializeService */
-        $serializeService = $this->get('app.serializer_data_service');
         $exercises = $exerciseService->getExercises($today);
         $exercises = $serializeService->serializeExercise($exercises, 'json');
 

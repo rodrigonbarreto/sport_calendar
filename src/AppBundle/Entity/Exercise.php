@@ -68,7 +68,7 @@ class Exercise
      *
      * @return int
      */
-    public function getId()
+    public function getId() :?int
     {
         return $this->id;
     }
@@ -80,7 +80,7 @@ class Exercise
      *
      * @return Exercise
      */
-    public function setDescription($description)
+    public function setDescription(string $description) : Exercise
     {
         $this->description = $description;
 
@@ -92,7 +92,7 @@ class Exercise
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription() :?string
     {
         return $this->description;
     }
@@ -104,7 +104,7 @@ class Exercise
      *
      * @return Exercise
      */
-    public function setWeight($weight)
+    public function setWeight(string $weight) :?Exercise
     {
         $this->weight = $weight;
 
@@ -116,7 +116,7 @@ class Exercise
      *
      * @return string
      */
-    public function getWeight()
+    public function getWeight() :?string
     {
         return $this->weight;
     }
@@ -128,7 +128,7 @@ class Exercise
      *
      * @return Exercise
      */
-    public function setNumberRepetition($numberRepetition)
+    public function setNumberRepetition(int $numberRepetition) :?Exercise
     {
         $this->numberRepetition = $numberRepetition;
 
@@ -140,7 +140,7 @@ class Exercise
      *
      * @return int
      */
-    public function getNumberRepetition()
+    public function getNumberRepetition() :?int
     {
         return $this->numberRepetition;
     }
@@ -152,7 +152,7 @@ class Exercise
      *
      * @return Exercise
      */
-    public function setDate($date)
+    public function setDate($date) :?Exercise
     {
         $this->date = $date;
 
@@ -164,7 +164,7 @@ class Exercise
      *
      * @return \DateTime
      */
-    public function getDate()
+    public function getDate() :?\DateTime
     {
         return $this->date;
     }
@@ -176,7 +176,7 @@ class Exercise
      *
      * @return Exercise
      */
-    public function setTime($time)
+    public function setTime($time) :?Exercise
     {
         $this->time = $time;
 
@@ -188,7 +188,7 @@ class Exercise
      *
      * @return \DateTime
      */
-    public function getTime()
+    public function getTime() :?\DateTime
     {
         return $this->time;
     }

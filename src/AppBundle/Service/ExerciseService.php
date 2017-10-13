@@ -4,7 +4,6 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Exercise;
 use Doctrine\ORM\EntityManagerInterface;
-use Faker\Provider\DateTime;
 
 class ExerciseService
 {
@@ -24,9 +23,8 @@ class ExerciseService
      * @param string $today
      * @return array
      */
-    public function getExercises(string $today)
+    public function getExercises(string $today) : array
     {
-
         $weekAgo = strtotime(date("Y-m-d", strtotime($today)) . " -1 week");
         $weekAgo = date("Y-m-d", $weekAgo);
         $twoWeeksAgo = strtotime(date("Y-m-d", strtotime($today)) . " -2 week");
